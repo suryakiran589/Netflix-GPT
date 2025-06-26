@@ -10,7 +10,7 @@ const useTopRatedMovies = () =>{
     const data = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
     const json = await data.json()
     dispatch(addTopRatedMovies(json.results))
-    console.log("results",json)
+    // console.log("results",json)
   }
   useEffect(()=>{
     handleTmdb()

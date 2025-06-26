@@ -1,20 +1,23 @@
-import React from "react";
-import { IMG_URL } from "../utils/constants";
 import Moviecard from "./Moviecard";
+import Shimmer from "./Shimmer";
 
 const MovieList = ({ title, movies }) => {
   return (
     <div className=" pl-2  my-10">
       <h2 className="font-bold text-3xl p-2 text-white">{title}</h2>
-      {movies && (
+      {movies ? (
         <div className="overflow-x-scroll flex">
           <div className="flex  ">
             {movies.map((movie) => (
-              <Moviecard id={movie.id} poster={movie.poster_path} />
+              <Moviecard key={movie.name} id={movie.id} poster={movie.poster_path} movie={movie} isWishList={false} />
             ))}
           </div>
         </div>
-      )}
+      ):<div className="overflow-x-scroll flex">
+          {[...Array(5)].map((_, index) => (
+    <Shimmer key={index} />
+  ))}
+        </div>}
     </div>
   );
 };

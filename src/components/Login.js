@@ -10,6 +10,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { BG_URL } from "../utils/constants";
 
 const Login = () => {
 const dispatch = useDispatch()
@@ -90,7 +91,7 @@ const dispatch = useDispatch()
     <div className="">
       <Header />
       <div className="flex justify-center items-center absolute w-screen h-screen  ">
-      <form className=" flex flex-col m-3 bg-black p-11 bg-opacity-80 rounded-md ">
+      <form className=" flex flex-col m-3 p-6 bg-black md:p-11 bg-opacity-80 rounded-md ">
         <h3 className="text-white m-3 font-bold text-3xl">Sign In</h3>
         {!isSignIn && (
           <input
@@ -130,7 +131,7 @@ const dispatch = useDispatch()
       <div className="h-[100vh] ">
         <img
           className="h-[100%] w-[100%]"
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/914ad279-199e-4095-9c10-2409dc9e5e1b/web/IN-en-20250519-TRIFECTA-perspective_8f1ca896-9e49-4a4e-90f0-22fc49650bd9_large.jpg"
+          src={BG_URL}
         ></img>
       </div>
     </div>

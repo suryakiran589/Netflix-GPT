@@ -1,0 +1,94 @@
+
+import openai from "../hooks/useOpenai";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+// import lang from "../utils/languageConstants";
+import { API_OPTIONS, options } from "../utils/constants";
+import { addGptMovieResult } from "../utils/gptSlice";
+
+const GptSearchBar = () => {
+  const dispatch = useDispatch();
+  // const langKey = useSelector((store) => store.config.lang);
+  const searchText = useRef(null);
+
+  // search movie in TMDB
+  const searchMovieTMDB = async (movie) => {
+    const data = await fetch(
+      "https://api.themoviedb.org/3/search/movie?query=" +
+        movie +
+        "&include_adult=false&language=en-US&page=1",
+      options
+    );
+    const json = await data.json();
+
+    return json.results;
+  };
+
+  const handleGptSearchClick = async () => {
+    console.log(searchText.current.value);
+    // Make an API call to GPT API and get Movie Results
+
+    const gptQuery =
+      "Act as a Movie Recommendation system and suggest some movies for the query : " +
+      searchText.current.value +
+      ".give only names of movies for movie recommendation system.give output like [pushpa,RRR,kalki,sanju,PK] nothing extra and remove array braces.give output as a string seperated by commas";
+
+    const gptResults = await openai.chat.completions.create({
+    model: "deepseek/deepseek-chat-v3-0324:free",
+    messages: [
+      {
+        "role": "user",
+        "content": gptQuery
+      }
+    ],
+    });
+
+    if (!gptResults.choices) {
+      // TODO: Write Error Handling
+    }
+
+    console.log(gptResults.choices?.[0]?.message?.content);
+
+    // Andaz Apna Apna, Hera Pheri, Chupke Chupke, Jaane Bhi Do Yaaro, Padosan
+    const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
+
+    // ["Andaz Apna Apna", "Hera Pheri", "Chupke Chupke", "Jaane Bhi Do Yaaro", "Padosan"]
+
+    // For each movie I will search TMDB API
+
+    const promiseArray = gptMovies.map((movie) => searchMovieTMDB(movie));
+    // [Promise, Promise, Promise, Promise, Promise]
+
+    const tmdbResults = await Promise.all(promiseArray);
+
+    console.log(tmdbResults);
+
+    dispatch(
+      addGptMovieResult({ movieNames: gptMovies, movieResults: tmdbResults })
+    );
+  };
+
+  return (
+    <div className=" pt-[13%] md:pt-[12%] flex justify-center">
+      <form
+        className="w-[80%] md:w-1/2  grid grid-cols-12 shadow-md"
+        onSubmit={(e) => e.preventDefault()}
+      >
+        <input
+          ref={searchText}
+          type="text"
+          className=" p-2 m-4 text-xs md:p-4 md:text-xl mr-0 col-span-9 outline-none rounded-l-md"
+          placeholder={"Search Movie Recommendations"}
+        />
+        <button
+          className="text-xs col-span-3 md:text-xl m-4 ml-0 py-2  bg-red-700  text-white rounded-r-xl "
+          onClick={handleGptSearchClick}
+        >
+          {/* {lang[langKey].search} */}
+          Search
+        </button>
+      </form>
+    </div>
+  );
+};
+export default GptSearchBar;

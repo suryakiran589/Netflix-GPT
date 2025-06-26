@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
 import Login from "./Login";
 import Browse from "./Browse";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../utils/firebase";
-import { addUser, removeUser } from "../utils/userSlice";
-import { useDispatch } from "react-redux";
+import WatchList from "./WatchList";
 
 const Body = () => {
-  const dispatch = useDispatch();
+
   const appRouter = createBrowserRouter([
     {
       path: "/",
@@ -18,10 +14,14 @@ const Body = () => {
       path: "/browse",
       element: <Browse />,
     },
+    {
+      path:"/watchlist",
+      element:<WatchList />
+    }
   ]);
   
   return (
-    <div>
+    <div className=" -mb-10 md:-mb-40 ">
       <RouterProvider router={appRouter} />
     </div>
   );
