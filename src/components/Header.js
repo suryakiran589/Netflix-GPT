@@ -65,20 +65,20 @@ const Header = () => {
           
             <div className="flex items-center ">
               <button
-                className="text-xs md:text-base mx-1 p-1 bg-gradient-to-r from-purple-400 to-pink-600 rounded-md  text-white hover:bg-white hover:text-black md:mx-2 md:p-2"
+                className="text-xs md:text-base mx-1 p-1 bg-gradient-to-r from-purple-400 to-pink-600 rounded-sm  text-white hover:bg-white hover:text-black md:mx-2 md:p-2"
                 onClick={handleGptSearchClick}
               >
                 GPT Search
               </button>
               <button
-                className="text-xs md:text-base mx-1 p-0 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-md   md:p-2"
+                className="text-xs md:text-base mx-1 p-1 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-sm   md:p-2"
                 onClick={handleWatchList}
               >
                 {location.pathname === "/browse" ? "WatchList" : "Home"}
               </button>
 
               <button
-                className="text-xs md:text-base mx-1 p-0 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-md md:mx-2  md:p-2"
+                className="text-xs md:text-base mx-1 p-1 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-sm md:mx-2  md:p-2"
                 onClick={handleSignOut}
               >
                 Sign out

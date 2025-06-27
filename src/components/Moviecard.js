@@ -19,7 +19,7 @@ const Moviecard = ({id,poster,movie,isWishList}) => {
    
   return movie ? (
     
-  <div className="w-44 md:w-60 relative">
+  <div className="w-40 md:w-60 relative">
     <img className="rounded-[12px] p-2" src={IMG_URL + poster} alt={movie.title} />
 
     {!isWishList ? (

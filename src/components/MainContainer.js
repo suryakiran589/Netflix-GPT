@@ -7,12 +7,12 @@ const MainContainer = () => {
    const movies=useSelector((store) => store.movies?.nowPlayingMovies)
     if(movies === null) return;
     // console.log(movies)
-    const firstMovie = movies[6]
-    const id=movies[6].id
+    const firstMovie = movies[2]
+    const id=movies[2].id
     // console.log(firstMovie)
     const {original_title,overview}=firstMovie
   return (
-    <div>
+    <div className='overflow-hidden'>
       <VideoTitle title={original_title} overview={overview}/>
       <VideoBackground id={id}/>
     </div>
