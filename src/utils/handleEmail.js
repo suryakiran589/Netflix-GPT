@@ -1,5 +1,5 @@
 export const handleEmail =(email,password)=>{
-    const valEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+    const valEmail = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
     console.log("val-",valEmail)
     if(!valEmail){
         return "invalid Email"

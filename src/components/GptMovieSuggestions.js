@@ -9,6 +9,7 @@ const { movieResults, movieNames } = useSelector((store) => store.gpt);
 
   return (
     <div className="m-1 p-4 md:m-4 bg-black text-white bg-opacity-70">
+
       <div>
         {movieNames.map((movieName, index) => (
           <MovieList

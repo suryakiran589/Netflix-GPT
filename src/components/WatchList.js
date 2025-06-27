@@ -14,7 +14,7 @@ const WatchList = () => {
     <h4 className='text-white text-3xl font-bold font text-center'>WatchList</h4>
     <div className='flex flex-wrap'>
 
-{movies.map((movie) => <Moviecard key={movie.name} id={movie.id} poster={movie.poster_path} movie={movie} isWishList={true} />)}
+{movies.length!==0 ? movies.map((movie) => <Moviecard key={movie.name} id={movie.id} poster={movie.poster_path} movie={movie} isWishList={true} />):<h3 className='text-white text-center'>Your Watch List is Empty</h3>}
 </div>
 </div>
     </div>

@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { auth } from "../utils/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
-import GptSearch from "./GptSearch";
+
 import { toggleGptSearchView } from "../utils/gptSlice";
 
 const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isHome, setIsHome] = useState(false);
+  // const [isHome, setIsHome] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
   const user = useSelector((store) => store.user);
-  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  // const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
   const handleSignOut = () => {
     signOut(auth)
@@ -43,7 +43,7 @@ const Header = () => {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [dispatch, navigate, location.pathname]);
 
   const handleGptSearchClick = () => {
     dispatch(toggleGptSearchView());
@@ -65,20 +65,20 @@ const Header = () => {
           
             <div className="flex items-center ">
               <button
-                className="text-xs md:text-l mx-1 p-1 bg-purple-600 rounded-md  text-white hover:bg-white hover:text-black md:mx-2 md:p-2"
+                className="text-xs md:text-base mx-1 p-1 bg-gradient-to-r from-purple-400 to-pink-600 rounded-md  text-white hover:bg-white hover:text-black md:mx-2 md:p-2"
                 onClick={handleGptSearchClick}
               >
                 GPT Search
               </button>
               <button
-                className="text-xs md:text-l mx-1 p-0 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-md   md:p-2"
+                className="text-xs md:text-base mx-1 p-0 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-md   md:p-2"
                 onClick={handleWatchList}
               >
                 {location.pathname === "/browse" ? "WatchList" : "Home"}
               </button>
-              {console.log(isHome)}
+
               <button
-                className="text-xs md:text-md mx-1 p-0 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-md md:mx-2  md:p-2"
+                className="text-xs md:text-base mx-1 p-0 text-white  hover:bg-slate-200 hover:bg-opacity-20 hover:rounded-md md:mx-2  md:p-2"
                 onClick={handleSignOut}
               >
                 Sign out

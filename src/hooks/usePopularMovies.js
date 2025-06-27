@@ -6,15 +6,16 @@ import { options } from "../utils/constants"
 
 const usePopularMovies = () =>{
     const dispatch = useDispatch()
-  async function handleTmdb(){
-    const data = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
-    const json = await data.json()
-    dispatch(addPopularMovies(json.results))
-    // console.log("results",json)
-  }
+  
   useEffect(()=>{
+    async function handleTmdb(){
+      const data = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
+      const json = await data.json()
+      dispatch(addPopularMovies(json.results))
+      
+    }
     handleTmdb()
-  },[])
+  },[dispatch])
 }
 
 export default usePopularMovies

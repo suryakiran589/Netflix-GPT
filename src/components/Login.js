@@ -13,6 +13,7 @@ import { addUser } from "../utils/userSlice";
 import { BG_URL } from "../utils/constants";
 
 const Login = () => {
+  console.log(process.env.REACT_APP_FIREBASE_KEY)
 const dispatch = useDispatch()
   const navigate = useNavigate();
   const name = useRef(null);
@@ -130,7 +131,7 @@ const dispatch = useDispatch()
       </div>
       <div className="h-[100vh] ">
         <img
-          className="h-[100%] w-[100%]"
+          alt="" className="h-[100%] w-[100%]"
           src={BG_URL}
         ></img>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+
 import { IMG_URL } from '../utils/constants'
 import { addWishListItem, removeWishListItem } from '../utils/wishListSlice'
 import { useDispatch, useSelector } from 'react-redux'
