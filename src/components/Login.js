@@ -13,20 +13,22 @@ import { addUser } from "../utils/userSlice";
 import { BG_URL } from "../utils/constants";
 
 const Login = () => {
-  console.log(process.env.REACT_APP_FIREBASE_KEY)
-const dispatch = useDispatch()
+  console.log(process.env.REACT_APP_FIREBASE_KEY);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
   const [isSignIn, setSignIn] = useState(true);
   const [errMessage, setErrorMesssage] = useState("");
+  const [isLoading,setIsLoading] = useState(false)
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoading(true)
     setErrorMesssage(handleEmail(email.current.value, password.current.value));
-    console.log(isSignIn);
     if (errMessage) {
+      setIsLoading(false)
       console.log(email.current.value);
       console.log(errMessage);
       return;
@@ -45,13 +47,17 @@ const dispatch = useDispatch()
             photoURL: "https://example.com/jane-q-user/profile.jpg",
           })
             .then(() => {
-                const { uid, email, displayName } = auth.currentUser;
-                 dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+              const { uid, email, displayName } = auth.currentUser;
+              dispatch(
+                addUser({ uid: uid, email: email, displayName: displayName })
+              );
               // Profile updated!
               // ...
-              navigate("/browse")
+              setIsLoading(false)
+              navigate("/browse");
             })
             .catch((error) => {
+              setIsLoading(false)
               // An error occurred
               // ...
             });
@@ -62,6 +68,7 @@ const dispatch = useDispatch()
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMesssage(errorCode + "" + errorMessage);
+          setIsLoading(false)
           // ..
         });
     } else {
@@ -73,6 +80,7 @@ const dispatch = useDispatch()
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          setIsLoading(false)
           navigate("/browse");
           console.log(user);
           // ...
@@ -81,6 +89,7 @@ const dispatch = useDispatch()
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMesssage(errorCode + "-" + errorMessage);
+          setIsLoading(false)
         });
     }
   };
@@ -92,48 +101,48 @@ const dispatch = useDispatch()
     <div className="">
       <Header />
       <div className="flex justify-center items-center absolute w-screen h-screen  ">
-      <form className=" flex flex-col m-3 p-6 bg-black md:p-11 bg-opacity-80 rounded-md ">
-        <h3 className="text-white m-3 font-bold text-3xl">Sign In</h3>
-        {!isSignIn && (
+        <form className=" flex flex-col m-3 p-6 bg-black md:p-11 bg-opacity-80 rounded-md ">
+          <h3 className="text-white m-3 font-bold text-3xl">Sign In</h3>
+          {!isSignIn && (
+            <input
+              ref={name}
+              type="text"
+              className="bg-gray-600 m-3 p-4 rounded-md bg-opacity-75 outline-none w-[300px] text-white"
+              placeholder="Full name"
+            ></input>
+          )}
           <input
-            ref={name}
-            type="text"
+            ref={email}
+            type="email"
             className="bg-gray-600 m-3 p-4 rounded-md bg-opacity-75 outline-none w-[300px] text-white"
-            placeholder="Full name"
+            placeholder="Enter email"
           ></input>
-        )}
-        <input
-          ref={email}
-          type="email"
-          className="bg-gray-600 m-3 p-4 rounded-md bg-opacity-75 outline-none w-[300px] text-white"
-          placeholder="Enter email"
-        ></input>
-        <input
-          ref={password}
-          type="password"
-          className="bg-gray-600 m-3 p-4 rounded-md bg-opacity-75 outline-none w-[300px] text-white"
-          placeholder="Enter password"
-        ></input>
-        <button
-          className="bg-red-600 text-white w-[300px] m-3 p-2 rounded-md"
-          onClick={handleLogin}
-        >
-          {isSignIn ? "Login":"Sign Up"}
-        </button>
-        {errMessage != null && <p className="text-red-600">{errMessage}</p>}
-        <p className="text-white m-3 p-2 cursor-pointer" onClick={handleSignUp}>
-          {" "}
-          {isSignIn
-            ? "New to Netflix? Sign Up"
-            : "Already an existing user?Sign In"}
-        </p>
-      </form>
+          <input
+            ref={password}
+            type="password"
+            className="bg-gray-600 m-3 p-4 rounded-md bg-opacity-75 outline-none w-[300px] text-white"
+            placeholder="Enter password"
+          ></input>
+          <button disabled={isLoading}
+            className="bg-red-600 text-white w-[300px] m-3 p-2 rounded-md"
+            onClick={handleLogin}
+          >
+            {isSignIn ? (isLoading ?"Loading...":"Login") : (isLoading ?"Loading...":"Sign Up")}
+          </button>
+          {errMessage != null && <p className="text-red-600">{errMessage}</p>}
+          <p
+            className="text-white m-3 p-2 cursor-pointer"
+            onClick={handleSignUp}
+          >
+            {" "}
+            {isSignIn
+              ? "New to Netflix? Sign Up"
+              : "Already an existing user?Sign In"}
+          </p>
+        </form>
       </div>
       <div className="h-[100vh] ">
-        <img
-          alt="" className="h-[100%] w-[100%]"
-          src={BG_URL}
-        ></img>
+        <img alt="" className="h-[100%] w-[100%]" src={BG_URL}></img>
       </div>
     </div>
   );

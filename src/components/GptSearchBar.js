@@ -1,11 +1,13 @@
 
 import openai from "../hooks/useOpenai";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useDispatch,  } from "react-redux";
 import {  options } from "../utils/constants";
 import { addGptMovieResult } from "../utils/gptSlice";
 
+
 const GptSearchBar = () => {
+  const [isLoading,setIsLoading] = useState(false)
   const dispatch = useDispatch();
 
   const searchText = useRef(null);
@@ -24,7 +26,7 @@ const GptSearchBar = () => {
   };
 
   const handleGptSearchClick = async () => {
-
+    setIsLoading(true)
 
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
@@ -44,6 +46,7 @@ const GptSearchBar = () => {
 
 
   if (!gptResults.choices) {
+    setIsLoading(false)
       return Error("api error")
     }
 
@@ -62,8 +65,10 @@ const GptSearchBar = () => {
     dispatch(
       addGptMovieResult({ movieNames: gptMovies, movieResults: tmdbResults })
     );
+    setIsLoading(false)
 }
 
+  if(isLoading) return <h1 className="text-white">Loading...</h1>
     
   
 
@@ -83,7 +88,6 @@ const GptSearchBar = () => {
           className="text-xs col-span-3 md:text-xl m-4 ml-0 py-2  bg-red-700  text-white rounded-r-xl "
           onClick={handleGptSearchClick}
         >
-          {/* {lang[langKey].search} */}
           Search
         </button>
       </form>
