@@ -13,7 +13,7 @@ const VideoBackground = ({ id }) => {
       );
       const json = await data.json();
       console.log("trailer",json);
-      setTrailerId(json.results[1].key)
+      setTrailerId(json.results[0].key)
     };
     getBackgroundVideo();
   }, [id]);

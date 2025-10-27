@@ -34,7 +34,7 @@ const GptSearchBar = () => {
       ".give only names of movies for movie recommendation system.give output like [pushpa,RRR,kalki,sanju,PK] nothing extra and remove array braces.give output as a string seperated by commas";
 
     const gptResults = await openai.chat.completions.create({
-    model: "deepseek/deepseek-chat-v3-0324:free",
+    model: "deepseek/deepseek-r1-distill-llama-70b:free",
     messages: [
       {
         "role": "user",
@@ -68,12 +68,12 @@ const GptSearchBar = () => {
     setIsLoading(false)
 }
 
-  if(isLoading) return <h1 className="text-white">Loading...</h1>
+
     
   
 
   return (
-    <div className=" pt-[13%] md:pt-[12%] flex justify-center">
+    <div className=" pt-[13%] md:pt-[12%] flex flex-col items-center justify-center">
       <form
         className="w-[80%] md:w-1/2  grid grid-cols-12 shadow-md"
         onSubmit={(e) => e.preventDefault()}
@@ -91,6 +91,7 @@ const GptSearchBar = () => {
           Search
         </button>
       </form>
+      {isLoading &&  <h1 className="block text-white">Loading...</h1>}
     </div>
   );
 };
